@@ -8,8 +8,8 @@ import (
 func TestWalk(t *testing.T) {
 
 	cases := []struct {
-		Name string
-		Input interface{}
+		Name          string
+		Input         interface{}
 		ExpectedCalls []string
 	}{
 		{
@@ -31,9 +31,17 @@ func TestWalk(t *testing.T) {
 			"struct with non string field",
 			struct {
 				Name string
-				Age int
+				Age  int
 			}{"Chris", 33},
 			[]string{"Chris"},
+		},
+		{
+			"nested fields",
+			Person {
+				"Chris",
+				Profile{33, "London"},
+			},
+			[]string{"Chris", "London"},
 		},
 	}
 
@@ -50,4 +58,3 @@ func TestWalk(t *testing.T) {
 		})
 	}
 }
-

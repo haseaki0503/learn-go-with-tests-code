@@ -1,4 +1,4 @@
-package store
+package context
 
 import (
 	"fmt"
@@ -21,11 +21,13 @@ func Server(store Store) http.HandlerFunc {
 			data <- store.Fetch()
 		}()
 
-		select {
-		case d := <-data:
+		select{
+		case d := <- data:
 			fmt.Fprint(w, d)
 		case <-ctx.Done():
 			store.Cancel()
 		}
+
 	}
 }
+
